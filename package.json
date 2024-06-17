@@ -10,7 +10,7 @@
     "test:LA": "TZ='America/Los_Angeles' NODE_OPTIONS=--experimental-vm-modules jest",
     "test:BER": "TZ='Europe/Berlin' NODE_OPTIONS=--experimental-vm-modules jest",
     "test:SYD": "TZ='Australia/Sydney' NODE_OPTIONS=--experimental-vm-modules jest",
-    "test:ci": "jest --ci --config=tests/jest.config.js",
+    "test:ci": "jest --ci",
     "build": "tsc"
   },
   "license": "ISC",
