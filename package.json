@@ -2,7 +2,8 @@
   "name": "@rundownstudio/timeutils",
   "version": "0.0.0",
   "description": "Helper functions for timing related problems",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "type": "module",
   "scripts": {
     "test": "npm run test:UTC; npm run test:LA; npm run test:BER; npm run test:SYD",
     "test:UTC": "TZ='UTC' NODE_OPTIONS=--experimental-vm-modules jest",
@@ -12,9 +13,12 @@
     "test:ci": "jest --ci --config=tests/jest.config.js",
     "build": "tsc"
   },
-  "author": "Lukas Hermann <hey@lukashermann.dev>",
   "license": "ISC",
-  "type": "module",
+  "author": "Lukas Hermann <hey@lukashermann.dev>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rundown-studio/package-timeutils.git"
+  },
   "exports": "./dist/index.js",
   "devDependencies": {
     "@eslint/js": "^9.5.0",
