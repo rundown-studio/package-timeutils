@@ -21,7 +21,7 @@ jobs:
           cache: 'npm'
 
       - name: Install Dependencies
-        run: npm ci
+        run: npm ci --loglevel=error
 
       - name: Compile Typescript
         run: npm run build
@@ -45,7 +45,7 @@ jobs:
           cache: 'npm'
 
       - name: Install Dependencies
-        run: npm ci
+        run: npm ci --loglevel=error
 
       - name: Download Build Artifacts
         uses: actions/download-artifact@v4
@@ -73,7 +73,7 @@ jobs:
           cache: 'npm'
 
       - name: Install Dependencies
-        run: npm ci --omit=dev
+        run: npm ci --omit=dev --loglevel=error
 
       - name: Download Build Artifacts
         uses: actions/download-artifact@v4
