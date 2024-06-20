@@ -82,13 +82,14 @@ jobs:
       - name: Install Dependencies
         run: npm ci --omit=dev --loglevel=error
 
-      - name: Publish Package
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Upload Debug Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: debug
           path: ./
+
+      - name: Publish Package
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
