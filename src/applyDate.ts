@@ -1,18 +1,24 @@
 import { addMilliseconds } from 'date-fns'
 import { getTimezoneOffset } from 'date-fns-tz'
 
+type ApplyDateOptions = {
+  timezone?: string
+}
+
 /**
  * Apply year-month-day to a JS date.
  *
  * @param  {Date} time - the JS Date to be changed
  * @param  {Date} date - the JS Date to take the year-month-day from
- * @param  {string} [timezone] - an optional IANA timezone like 'Europe/Berlin'
+ * @param  {string} [options.timezone] - an optional IANA timezone like 'Europe/Berlin'
  * @return {Date}
  */
 export function applyDate (
   time: Date,
   date: Date,
-  timezone?: string,
+  {
+    timezone,
+  }: ApplyDateOptions = {},
 ): Date {
   if (!(time instanceof Date)) throw new Error('`time` must be an instance of Date')
   if (!(date instanceof Date)) throw new Error('`date` must be an instance of Date')
