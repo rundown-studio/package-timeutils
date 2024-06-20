@@ -20,6 +20,10 @@
     "url": "git+https://github.com/rundown-studio/package-timeutils.git"
   },
   "exports": "./dist/index.js",
+  "files": [
+    "index.js",
+    "README.md"
+  ],
   "devDependencies": {
     "@eslint/js": "^9.5.0",
     "@stylistic/eslint-plugin": "^2.2.1",
