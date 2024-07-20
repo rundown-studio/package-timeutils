@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { applyDate } from '../dist/index.js'
+import { applyDate } from '../dist/esm/index.js'
 
 describe('applyDate', () => {
   it('should throw an error for invalid time parameter', () => {
