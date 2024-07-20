@@ -36,12 +36,5 @@ export function formatTimeOfDay (
     timeFormat = timeFormat.replace(':mm', ':mm:ss')
   }
 
-  // Convert the date to the specified timezone
-  // let zonedDate = date
-  // if (timezone) {
-  //   const utcDate = zonedTimeToUtc(date, timezone)
-  //   zonedDate = utcToZonedTime(utcDate, timezone)
-  // }
-
   return formatInTimeZone(date, timezone, timeFormat)
 }
