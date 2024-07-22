@@ -116,15 +116,15 @@ describe('getTimezoneOffset', () => {
 
   describe('Error cases', () => {
     it('throws error for invalid date', () => {
-      expect(() => getTimezoneOffset('not a date', 'UTC')).to.throw('`date` must be a valid Date')
+      expect(() => getTimezoneOffset('UTC', 'not a date')).to.throw('`date` must be a valid Date')
     })
 
     it('throws error for invalid timezone', () => {
-      expect(() => getTimezoneOffset(new Date(), 123)).to.throw('`timezone` must be provided')
+      expect(() => getTimezoneOffset(undefined, new Date())).to.throw('`timezone` must be provided')
     })
 
     it('throws error for non-existent timezone', () => {
-      expect(() => getTimezoneOffset(new Date(), 'Not/A/Timezone')).to.throw('Invalid time zone specified: Not/A/Timezone')
+      expect(() => getTimezoneOffset('Not/A/Timezone', new Date())).to.throw('Invalid time zone specified: Not/A/Timezone')
     })
   })
 })
