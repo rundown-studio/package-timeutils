@@ -1,5 +1,4 @@
 import abbreviations from './consts/timezoneAbbreviations'
-import { getTimezoneOffset } from 'date-fns-tz'
 
 type TimezoneFormatOption = 'city' | 'long' | 'abbr' | 'offset'
 
@@ -38,13 +37,17 @@ export function formatTimezone (
         if (abbr) return abbr
         break
 
-      case 'offset':
-        const offsetMilliseconds = getTimezoneOffset(timezone, date)
-        const offsetMinutes = offsetMilliseconds / 60000
-        const sign = offsetMinutes >= 0 ? '+' : '-'
-        const hours = String(Math.floor(Math.abs(offsetMinutes) / 60)).padStart(2, '0')
-        const minutes = String(Math.abs(offsetMinutes) % 60).padStart(2, '0')
-        return `GMT${sign}${hours}:${minutes}`
+      case 'offset': {
+        let offset = ''
+        try {
+          formatOpts.timeZoneName = 'longOffset' // Note: Typescript parser may be outdated, 'longOffset' is valid
+          offset = new Intl.DateTimeFormat('en-US', formatOpts).format(date).split(', ')[1]
+        } catch {
+          formatOpts.timeZoneName = 'short'
+          offset = new Intl.DateTimeFormat('en-US', formatOpts).format(date).split(', ')[1]
+        }
+        return offset === 'GMT' ? 'GMT+00:00' : offset
+      }
 
       default:
         throw new Error('Format option must be one of \'city\', \'long\', \'abbr\' or \'offset\'')

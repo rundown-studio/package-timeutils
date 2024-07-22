@@ -39,6 +39,7 @@ export default [
       '@stylistic/comma-dangle': ['warn', 'always-multiline'],
       '@stylistic/space-before-function-paren': ['warn', 'always'],
       '@stylistic/object-curly-spacing': ['warn', 'always'],
+      '@stylistic/brace-style': ['warn', '1tbs'],
     },
   },
 
