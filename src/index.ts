@@ -1,4 +1,5 @@
 export * from './getTimezoneOffset'
+export * from './addDays'
 export * from './applyDate'
 export * from './formatTimeOfDay'
 export * from './isSameDay'
