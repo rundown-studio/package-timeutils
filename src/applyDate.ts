@@ -1,5 +1,6 @@
 import { addMilliseconds } from 'date-fns'
 import { getTimezoneOffset } from './getTimezoneOffset'
+import { isSameDay } from './isSameDay'
 
 type ApplyDateOptions = {
   timezone?: string
@@ -22,6 +23,7 @@ export function applyDate (
 ): Date {
   if (!(time instanceof Date)) throw new Error('`time` must be an instance of Date')
   if (!(date instanceof Date)) throw new Error('`date` must be an instance of Date')
+  if (isSameDay(time, date)) return time
   const tz = timezone || 'UTC'
 
   // Change dates from UTC to sepcified timezone
@@ -39,14 +41,15 @@ export function applyDate (
   outputInZone.setUTCDate(dateInZone.getUTCDate())
 
   // Change output from sepcified timezone back to UTC
-  const inUTC = addMilliseconds(outputInZone, -getTimezoneOffset(tz, outputInZone))
+  // Note: We guess that the dateOffset is likely identical to the final inUTC offset
+  const inUTC = addMilliseconds(outputInZone, -dateOffset)
 
   // console.log(
   //   '[applyDate]',
   //   { tz, dstShift: dateOffset - timeOffset },
-  //   { time, timeInWords: time.toString(), timeInZone, timeOffset },
-  //   { date, dateInWords: date.toString(), dateInZone, dateOffset },
-  //   { outputInZone, inUTC, inUtcInWords: inUTC.toString() },
+  //   { time, timeS: time.toString(), timeInZone, offset: timeOffset },
+  //   { date, dateS: date.toString(), dateInZone, offset: dateOffset },
+  //   { inUTC, inUtcS: inUTC.toString(), outputInZone, offset: -dateOffset },
   // )
 
   return inUTC

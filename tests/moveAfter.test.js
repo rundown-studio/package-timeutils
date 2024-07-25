@@ -60,10 +60,10 @@ describe('moveAfter', () => {
   it('should handle daylight saving time transitions America/New_York', () => {
     const timezone = 'America/New_York'
     // DST transition in New York (March 12, 2023, 2:00 AM clocks are turned forward 1 hour)
-    const time = new Date('2023-03-11T09:30:00Z')
-    const after = new Date('2023-03-12T07:00:00Z')
+    const time = new Date('2023-03-11T09:30:00.000Z') // Sat Mar 11 2023 04:30:00 GMT-0500 (Eastern Standard Time)
+    const after = new Date('2023-03-12T07:00:00.000Z') // Sun Mar 12 2023 03:00:00 GMT-0400 (Eastern Daylight Time)
     const result = moveAfter(time, after, { timezone })
-    expect(result).to.deep.equal(new Date('2023-03-12T08:30:00Z'))
+    expect(result).to.deep.equal(new Date('2023-03-12T08:30:00.000Z')) // Sun Mar 12 2023 04:30:00 GMT-0400 (Eastern Daylight Time)
   })
 
   it('should handle cases where "after" is many days later', () => {

@@ -1,8 +1,8 @@
 /**
  * Get the timezone offset for a given date and timezone.
  *
- * @param {Date} date - The date to get the offset for
  * @param {string} timezone - The IANA timezone string (e.g., 'Australia/Sydney')
+ * @param {Date} date - The date to get the offset for
  * @return {number} The offset in milliseconds
  */
 export function getTimezoneOffset (
@@ -18,6 +18,8 @@ export function getTimezoneOffset (
     timeZoneName: 'longOffset', // Note: Typescript parser may be outdated, 'longOffset' is valid
   }
   const offsetStr = new Intl.DateTimeFormat('en', options).format(date).split(', ')[1]
+
+  console.log('[getTimezoneOffset] offsetStr', offsetStr, date)
 
   // Parse offsetStr into milliseconds
   const match = offsetStr.match(/GMT([+-]\d{2}):(\d{2})/)
