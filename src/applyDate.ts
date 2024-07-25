@@ -1,5 +1,5 @@
 import { addMilliseconds } from 'date-fns'
-import { getTimezoneOffset } from 'date-fns-tz'
+import { getTimezoneOffset } from './getTimezoneOffset'
 
 type ApplyDateOptions = {
   timezone?: string
@@ -40,6 +40,14 @@ export function applyDate (
 
   // Change output from sepcified timezone back to UTC
   const inUTC = addMilliseconds(outputInZone, -getTimezoneOffset(tz, outputInZone))
+
+  // console.log(
+  //   '[applyDate]',
+  //   { tz, dstShift: dateOffset - timeOffset },
+  //   { time, timeInWords: time.toString(), timeInZone, timeOffset },
+  //   { date, dateInWords: date.toString(), dateInZone, dateOffset },
+  //   { outputInZone, inUTC, inUtcInWords: inUTC.toString() },
+  // )
 
   return inUTC
 }
