@@ -1,6 +1,6 @@
 {
   "name": "@rundown-studio/timeutils",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Helper functions for timing related problems",
   "license": "ISC",
   "author": "Lukas Hermann <hey@lukashermann.dev>",
