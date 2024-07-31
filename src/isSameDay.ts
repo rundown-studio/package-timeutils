@@ -1,8 +1,5 @@
+import { TimezoneOption } from './types'
 import { formatInTimeZone } from 'date-fns-tz'
-
-type IsSameDayOptions = {
-  timezone?: string
-}
 
 /**
  * Checks if two dates are on the same day in a given timezone.
@@ -17,7 +14,7 @@ export function isSameDay (
   date2: Date,
   {
     timezone,
-  }: IsSameDayOptions = {},
+  }: TimezoneOption = {},
 ) {
   if (!(date1 instanceof Date)) throw new Error('`date1` must be an instance of Date')
   if (!(date2 instanceof Date)) throw new Error('`date2` must be an instance of Date')

@@ -1,9 +1,6 @@
+import { TimezoneOption } from './types'
 import { applyDate } from './applyDate'
 import { addDays } from './addDays'
-
-type MoveTimeOptions = {
-  timezone?: string
-}
 
 /**
  * Move the 'time' date so that it preserves the time of day but is after the 'after' date.
@@ -19,7 +16,7 @@ export function moveAfter (
   after: Date,
   {
     timezone,
-  }: MoveTimeOptions = {},
+  }: TimezoneOption = {},
 ): Date {
   // If time is already after 'after', return it unchanged
   if (time > after) return time
