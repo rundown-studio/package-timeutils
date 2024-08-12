@@ -1,10 +1,19 @@
 import { expect } from 'chai'
 import { getStartOfDay } from '../dist/esm/index.js'
 
-describe('applyDate', () => {
-  test('no and invalid arguments', () => {
-    expect(() => getStartOfDay()).to.throw()
+describe('getStartOfDay', () => {
+  test('invalid arguments', () => {
     expect(() => getStartOfDay('a')).to.throw()
+    expect(() => getStartOfDay(123)).to.throw()
+    expect(() => getStartOfDay(NaN)).to.throw()
+    expect(() => getStartOfDay(null)).to.throw()
+    expect(() => getStartOfDay({})).to.throw()
+    expect(() => getStartOfDay([])).to.throw()
+  })
+
+  test('valid arguments', () => {
+    expect(getStartOfDay(undefined)).to.be.an.instanceof(Date)
+    expect(getStartOfDay()).to.be.an.instanceof(Date)
     expect(getStartOfDay(new Date())).to.be.an.instanceof(Date)
   })
 
