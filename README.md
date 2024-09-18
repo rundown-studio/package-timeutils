@@ -1,4 +1,4 @@
-# Stagetimer Time Utils
+# Rundown Studio Time Utils
 
 ## Install
 
