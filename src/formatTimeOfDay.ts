@@ -1,5 +1,5 @@
-import { getSeconds } from 'date-fns'
-import { formatInTimeZone } from 'date-fns-tz'
+import { getSeconds, format as dateFormat } from 'date-fns'
+import { tz } from '@date-fns/tz'
 
 type FormatTimeOfDayOptions = {
   timezone?: string
@@ -11,7 +11,7 @@ type FormatTimeOfDayOptions = {
  * Format the time of day with timezone and format.
  *
  * @param  {Date}    date - The date object to format
- * @param  {string}  [options.timezone] - The IANA timezone name, e.g., 'America/New_York'
+ * @param  {string}  [options.timezone = 'UTC'] - The IANA timezone name, e.g., 'America/New_York'
  * @param  {string}  [options.format = '24h'] - The time format, either '12h' or '24h'
  * @param  {string}  [options.seconds = 'always'] - When to display seconds: 'always', 'nonzero', or 'never'
  * @return {string} - The formatted time string
@@ -36,5 +36,5 @@ export function formatTimeOfDay (
     timeFormat = timeFormat.replace(':mm', ':mm:ss')
   }
 
-  return formatInTimeZone(date, timezone, timeFormat)
+  return dateFormat(date, timeFormat, { in: tz(timezone) })
 }

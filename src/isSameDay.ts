@@ -1,27 +1,24 @@
 import { TimezoneOption } from './types'
-import { formatInTimeZone } from 'date-fns-tz'
+import { isSameDay as _isSameDay } from 'date-fns'
+import { tz as _tz } from '@date-fns/tz'
 
 /**
  * Checks if two dates are on the same day in a given timezone.
  *
  * @param {Date} date1
  * @param {Date} date2
- * @param {string} timezone - The IANA timezone string, defaults to 'UTC'
+ * @param {string} [options.timezone] - The IANA timezone string, defaults to 'UTC'
  * @returns {boolean} - True if both dates are on the same day in the specified timezone; false otherwise
  */
 export function isSameDay (
   date1: Date,
   date2: Date,
   {
-    timezone,
+    timezone = 'UTC',
   }: TimezoneOption = {},
 ) {
   if (!(date1 instanceof Date)) throw new Error('`date1` must be an instance of Date')
   if (!(date2 instanceof Date)) throw new Error('`date2` must be an instance of Date')
-  const tz = timezone || 'UTC'
 
-  const dateString1 = formatInTimeZone(date1, tz, 'yyyy-MM-dd')
-  const dateString2 = formatInTimeZone(date2, tz, 'yyyy-MM-dd')
-
-  return dateString1 === dateString2
+  return _isSameDay(date1, date2, { in: _tz(timezone) })
 }
