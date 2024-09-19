@@ -56,29 +56,47 @@ describe('parse function', () => {
     expect(result).to.deep.equal(new Date('2023-04-15T15:30:00.000Z'))
   })
 
-  it('should handle dates >24h before Daylight Saving Time changes', () => {
+  it('should handle 1 day before Daylight Saving Time change (America/New_York)', () => {
     const referenceDate = new Date()
     const result = parse('2023-03-11 01:30', 'yyyy-MM-dd HH:mm', referenceDate, { timezone: 'America/New_York' })
     expect(result).to.deep.equal(new Date('2023-03-11T06:30:00.000Z'))
+    // Sat Mar 11 2023 01:30:00 GMT-0500 (Eastern Standard Time)
   })
 
-  it('should handle dates 1h before Daylight Saving Time changes', () => {
+  it('should handle 30 min before Daylight Saving Time change (America/New_York)', () => {
     const referenceDate = new Date()
     const result = parse('2023-03-12 01:30', 'yyyy-MM-dd HH:mm', referenceDate, { timezone: 'America/New_York' })
     expect(result).to.deep.equal(new Date('2023-03-12T06:30:00.000Z'))
+    // Sun Mar 12 2023 01:30:00 GMT-0500 (Eastern Standard Time)
+  })
+
+  it('should handle right before Daylight Saving Time change (America/New_York)', () => {
+    const referenceDate = new Date()
+    const result = parse('2023-03-12 02:00', 'yyyy-MM-dd HH:mm', referenceDate, { timezone: 'America/New_York' })
+    expect(result).to.deep.equal(new Date('2023-03-12T07:00:00.000Z'))
+    // Sun Mar 12 2023 02:00:00 GMT-0500 (Eastern Daylight Time)
+  })
+
+  it.skip('should handle right after Daylight Saving Time change (America/New_York)', () => {
+    const referenceDate = new Date()
+    const result = parse('2023-03-12 03:00', 'yyyy-MM-dd HH:mm', referenceDate, { timezone: 'America/New_York' })
+    expect(result).to.deep.equal(new Date('2023-03-12T07:00:00.000Z'))
+    // Sun Mar 12 2023 03:00:00 GMT-0400 (Eastern Daylight Time)
   })
 
   // Seems to always use the start of the day as reference for DST offset
-  it.skip('should handle dates 1h after Daylight Saving Time changes', () => {
+  it.skip('should handle 30 min after Daylight Saving Time change (America/New_York)', () => {
     const referenceDate = new Date()
-    const result = parse('2023-03-12 04:00', 'yyyy-MM-dd HH:mm', referenceDate, { timezone: 'America/New_York' })
-    expect(result).to.deep.equal(new Date('2023-03-12T08:00:00.000Z'))
+    const result = parse('2023-03-12 03:30', 'yyyy-MM-dd HH:mm', referenceDate, { timezone: 'America/New_York' })
+    expect(result).to.deep.equal(new Date('2023-03-12T07:30:00.000Z'))
+    // Sun Mar 12 2023 03:30:00 GMT-0400 (Eastern Daylight Time)
   })
 
-  it('should handle dates >24h after Daylight Saving Time changes', () => {
+  it('should handle 1 day after Daylight Saving Time change (America/New_York)', () => {
     const referenceDate = new Date()
-    const result = parse('2023-03-13 04:00', 'yyyy-MM-dd HH:mm', referenceDate, { timezone: 'America/New_York' })
-    expect(result).to.deep.equal(new Date('2023-03-13T08:00:00.000Z'))
+    const result = parse('2023-03-13 03:30', 'yyyy-MM-dd HH:mm', referenceDate, { timezone: 'America/New_York' })
+    expect(result).to.deep.equal(new Date('2023-03-13T07:30:00.000Z'))
+    // Mon Mar 13 2023 03:30:00 GMT-0400 (Eastern Daylight Time)
   })
 
   // Should throw on invalid timezone like 'format', but doesn't
