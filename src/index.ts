@@ -1,5 +1,6 @@
 export * from './addDays'
 export * from './applyDate'
+export * from './format'
 export * from './formatTimeOfDay'
 export * from './formatTimezone'
 export * from './formatCalendarDate'
