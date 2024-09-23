@@ -1,3 +1,9 @@
+/*!
+ * @rundown-studio/timeutils
+ * © Rundown Studio <hello@rundownstudio.app>
+ * All rights reserved.
+ */
+
 export * from './addDays'
 export * from './applyDate'
 export * from './parse'
