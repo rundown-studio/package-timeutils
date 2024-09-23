@@ -77,7 +77,7 @@ describe('parse function', () => {
     // Sun Mar 12 2023 02:00:00 GMT-0500 (Eastern Daylight Time)
   })
 
-  it.skip('should handle right after Daylight Saving Time change (America/New_York)', () => {
+  it('should handle right after Daylight Saving Time change (America/New_York)', () => {
     const referenceDate = new Date()
     const result = parse('2023-03-12 03:00', 'yyyy-MM-dd HH:mm', referenceDate, { timezone: 'America/New_York' })
     expect(result).to.deep.equal(new Date('2023-03-12T07:00:00.000Z'))
@@ -85,7 +85,7 @@ describe('parse function', () => {
   })
 
   // Seems to always use the start of the day as reference for DST offset
-  it.skip('should handle 30 min after Daylight Saving Time change (America/New_York)', () => {
+  it('should handle 30 min after Daylight Saving Time change (America/New_York)', () => {
     const referenceDate = new Date()
     const result = parse('2023-03-12 03:30', 'yyyy-MM-dd HH:mm', referenceDate, { timezone: 'America/New_York' })
     expect(result).to.deep.equal(new Date('2023-03-12T07:30:00.000Z'))
