@@ -76,10 +76,18 @@ describe('moveAfterWithTolerance', () => {
     expect(result).to.deep.equal(new Date('2023-05-15T12:00:00Z'))
   })
 
-  it('should handle very small tolerance values', () => {
+  it('should handle very small tolerance values, 1ms more', () => {
     const time = new Date('2023-05-15T11:59:59.999Z')
     const after = new Date('2023-05-15T12:00:00.000Z')
-    const smallTolerance = 1 // 1 millisecond
+    const smallTolerance = 2 // 2 millisecond
+    const result = moveAfterWithTolerance(time, after, smallTolerance)
+    expect(result).to.deep.equal(new Date('2023-05-15T11:59:59.999Z'))
+  })
+
+  it('should handle very small tolerance, exact match', () => {
+    const time = new Date('2023-05-15T11:59:59.999Z')
+    const after = new Date('2023-05-15T12:00:00.000Z')
+    const smallTolerance = 1 // 1 milliseconds
     const result = moveAfterWithTolerance(time, after, smallTolerance)
     expect(result).to.deep.equal(new Date('2023-05-16T11:59:59.999Z'))
   })
@@ -90,6 +98,14 @@ describe('moveAfterWithTolerance', () => {
     const zeroTolerance = 0
     const result = moveAfterWithTolerance(time, after, zeroTolerance)
     expect(result).to.deep.equal(new Date('2023-05-16T11:59:59.999Z'))
+  })
+
+    it('should not move identical times with zero tolerance', () => {
+    const time = new Date('2023-05-15T12:00:00.000Z')
+    const after = new Date('2023-05-15T12:00:00.000Z')
+    const zeroTolerance = 0
+    const result = moveAfterWithTolerance(time, after, zeroTolerance)
+    expect(result).to.deep.equal(new Date('2023-05-15T12:00:00.000Z'))
   })
 
   it('should handle negative tolerance', () => {

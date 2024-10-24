@@ -22,5 +22,9 @@ export function moveAfterWithTolerance (
 ): Date {
   if (isNaN(tolerance)) throw new Error('`tolerance` must be a valid number')
   const adjustedAfter = addMilliseconds(after, -tolerance)
+
+  // Don't move time if they are identical with 0 tollerance
+  if (tolerance === 0 && time.getTime() === adjustedAfter.getTime()) return time
+
   return moveAfter(time, adjustedAfter, { timezone })
 }
