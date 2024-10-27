@@ -20,7 +20,7 @@ export function getTimezoneOffset (
   const offsetStr = new Intl.DateTimeFormat('en', options).format(date).split(', ')[1]
 
   // Parse offsetStr into milliseconds
-  const match = offsetStr.match(/GMT([+-]\d{2}:\d{2})?/)
+  const match = offsetStr.match(/GMT(?:([+-]\d{2})(?::(\d{2}))?)?/)
   if (!match) throw new Error('Unable to parse timezone offset')
   const hours = parseInt(match[1])
   const minutes = parseInt(match[2])
