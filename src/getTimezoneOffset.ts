@@ -11,7 +11,6 @@ export function getTimezoneOffset (
 ): number {
   if (!(date instanceof Date)) throw new Error('`date` must be a valid Date')
   if (typeof timezone !== 'string') throw new Error('`timezone` must be provided')
-  if (timezone === 'UTC') return 0
 
   const options: Intl.DateTimeFormatOptions = {
     timeZone: timezone,
@@ -20,8 +19,9 @@ export function getTimezoneOffset (
   const offsetStr = new Intl.DateTimeFormat('en', options).format(date).split(', ')[1]
 
   // Parse offsetStr into milliseconds
-  const match = offsetStr.match(/GMT(?:([+-]\d{2})(?::(\d{2}))?)?/)
+  const match = offsetStr.match(/GMT(?:([+-]\d{2}):(\d{2}))?/)
   if (!match) throw new Error('Unable to parse timezone offset')
+  if (!match[1]) return 0
   const hours = parseInt(match[1])
   const minutes = parseInt(match[2])
 
