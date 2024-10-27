@@ -104,12 +104,20 @@ describe('getTimezoneOffset', () => {
     })
   })
 
-  describe('UTC', () => {
-    const timezone = 'UTC'
-
+  describe('UTC and GMT', () => {
     it('get correct offset for UTC', () => {
       const date = new Date('2023-01-01T00:00:00.000Z')
-      const offset = getTimezoneOffset(timezone, date)
+      const offset = getTimezoneOffset('UTC', date)
+      expect(offset).to.equal(0)
+    })
+    it('get correct offset for GMT', () => {
+      const date = new Date('2023-01-01T00:00:00.000Z')
+      const offset = getTimezoneOffset('GMT', date)
+      expect(offset).to.equal(0)
+    })
+    it('get correct offset for Europe/London', () => {
+      const date = new Date('2023-01-01T00:00:00.000Z')
+      const offset = getTimezoneOffset('Europe/London', date)
       expect(offset).to.equal(0)
     })
   })
