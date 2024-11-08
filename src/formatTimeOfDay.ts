@@ -25,7 +25,7 @@ export function formatTimeOfDay (
   }: FormatTimeOfDayOptions = {},
 ): string {
   const formatOptions: Record<string, string> = {
-    '12h': 'h:mm a',
+    '12h': 'hh:mm a',
     '24h': 'HH:mm',
   }
 
