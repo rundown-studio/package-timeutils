@@ -73,11 +73,13 @@ describe('formatTimeOfDay', () => {
     const formatted = formatTimeOfDay(date, { format: '12h', seconds: 'always', timezone: 'America/Los_Angeles' })
     expect(formatted).to.equal('8:10:30 AM')
   })
+
   it('should format time in 12h (with no AM/PM) format in America/Los_Angeles timezone', () => {
     const date = new Date('2023-06-17T15:10:30Z')
     const formatted = formatTimeOfDay(date, { format: '12hNoAmPm', seconds: 'always', timezone: 'America/Los_Angeles' })
     expect(formatted).to.equal('8:10:30')
   })
+
   it('should format time in 24h if "format" is an empty string', () => {
     const date = new Date('2023-06-17T15:10:30Z')
     const formatted = formatTimeOfDay(date, { format: '', seconds: 'always', timezone: 'America/Los_Angeles' })
