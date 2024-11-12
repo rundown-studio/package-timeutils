@@ -3,7 +3,7 @@ import { tz } from '@date-fns/tz'
 
 type FormatTimeOfDayOptions = {
   timezone?: string
-  format?: '12h' | '24h'
+  format?: '12hNoAmPm' | '12h' | '24h'
   seconds?: 'always' | 'nonzero' | 'never'
 }
 
@@ -25,11 +25,12 @@ export function formatTimeOfDay (
   }: FormatTimeOfDayOptions = {},
 ): string {
   const formatOptions: Record<string, string> = {
-    '12h': 'h:mm a',
-    '24h': 'HH:mm',
+    '12hNoAmPm': 'h:mm', // -> 1:20
+    '12h': 'h:mm a', // -> 1:20 PM
+    '24h': 'HH:mm', // -> 13:00
   }
 
-  let timeFormat = formatOptions[format]
+  let timeFormat = format ? formatOptions[format] : formatOptions['24h']
 
   // Append seconds to the format string based on the seconds option
   if (seconds === 'always' || (seconds === 'nonzero' && getSeconds(date) !== 0)) {
