@@ -3,7 +3,7 @@ import { tz } from '@date-fns/tz'
 
 type FormatTimeOfDayOptions = {
   timezone?: string
-  format?: '12hNoAmPm' | '12h' | '24h'
+  format?: '12hNoAmPm' | '12h' | '24h' | undefined
   seconds?: 'always' | 'nonzero' | 'never'
 }
 
