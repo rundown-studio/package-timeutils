@@ -1,9 +1,10 @@
+import { Rundown } from '@rundown-studio/types'
 import { getSeconds, format as dateFormat } from 'date-fns'
 import { tz } from '@date-fns/tz'
 
 type FormatTimeOfDayOptions = {
   timezone?: string
-  format?: '12hNoAmPm' | '12h' | '24h' | undefined
+  format?: Rundown['settings']['todDisplayFormat']
   seconds?: 'always' | 'nonzero' | 'never'
 }
 
@@ -12,7 +13,7 @@ type FormatTimeOfDayOptions = {
  *
  * @param  {Date}    date - The date object to format
  * @param  {string}  [options.timezone = 'UTC'] - The IANA timezone name, e.g., 'America/New_York'
- * @param  {string}  [options.format = '24h'] - The time format, either '12h' or '24h'
+ * @param  {string}  [options.format = '24h'] - The time format, '12hNoAmPm' | '12h' | '24h' | null
  * @param  {string}  [options.seconds = 'always'] - When to display seconds: 'always', 'nonzero', or 'never'
  * @return {string} - The formatted time string
  */
