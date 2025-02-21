@@ -161,4 +161,30 @@ describe('applyDate', () => {
     const output = applyDate(inTime, inDate)
     expect(output).to.deep.equal(new Date('2023-11-30T07:04:04.000Z'))
   })
+
+  describe('Bug found on Feb 21 while testing rundown date input', () => {
+    test('Feb 19 to Feb 19, Europe/Berlin, reference case', () => {
+      const timezone = 'Europe/Berlin'
+      const inTime = new Date('2025-02-19T08:00:00.000Z') // Wed Feb 19 2025 09:00:00 GMT+0100 (Central European Standard Time)
+      const inDate = new Date('2025-02-18T23:00:00.000Z') // Wed Feb 19 2025 00:00:00 GMT+0100 (Central European Standard Time)
+      const output = applyDate(inTime, inDate, { timezone })
+      expect(output).to.deep.equal(new Date('2025-02-19T08:00:00.000Z')) // Wed Feb 19 2025 09:00:00 GMT+0100 (Central European Standard Time)
+    })
+
+    test('Feb 20 to Feb 19, Europe/Berlin, error case', () => {
+      const timezone = 'Europe/Berlin'
+      const inTime = new Date('2025-02-19T08:00:00.000Z') // Wed Feb 19 2025 09:00:00 GMT+0100 (Central European Standard Time)
+      const inDate = new Date('2025-02-19T23:00:00.000Z') // Thu Feb 20 2025 00:00:00 GMT+0100 (Central European Standard Time)
+      const output = applyDate(inTime, inDate, { timezone })
+      expect(output).to.deep.equal(new Date('2025-02-20T08:00:00.000Z')) // Thu Feb 20 2025 09:00:00 GMT+0100 (Central European Standard Time)
+    })
+
+    test('Feb 21 to Feb 19, Europe/Berlin, reference case', () => {
+      const timezone = 'Europe/Berlin'
+      const inTime = new Date('2025-02-19T08:00:00.000Z') // Wed Feb 19 2025 09:00:00 GMT+0100 (Central European Standard Time)
+      const inDate = new Date('2025-02-20T23:00:00.000Z') // Fri Feb 21 2025 00:00:00 GMT+0100 (Central European Standard Time)
+      const output = applyDate(inTime, inDate, { timezone })
+      expect(output).to.deep.equal(new Date('2025-02-21T08:00:00.000Z')) // Fri Feb 21 2025 09:00:00 GMT+0100 (Central European Standard Time)
+    })
+  })
 })

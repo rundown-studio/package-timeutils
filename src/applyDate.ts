@@ -23,7 +23,7 @@ export function applyDate (
 ): Date {
   if (!(time instanceof Date)) throw new Error('`time` must be an instance of Date')
   if (!(date instanceof Date)) throw new Error('`date` must be an instance of Date')
-  if (isSameDay(time, date)) return time
+  if (isSameDay(time, date, { timezone })) return time
   const tz = timezone || 'UTC'
 
   // Change dates from UTC to sepcified timezone
