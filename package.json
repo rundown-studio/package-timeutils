@@ -34,18 +34,18 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.5.0",
-    "@stylistic/eslint-plugin": "^2.2.1",
+    "@stylistic/eslint-plugin": "^5.0.0",
     "chai": "^5.1.1",
     "eslint": "^9.5.0",
     "globals": "^16.0.0",
-    "jest": "^29.7.0",
+    "jest": "^30.0.3",
     "tsup": "^8.5.0",
     "typescript": "^5.4.5",
     "typescript-eslint": "^8.0.0-alpha.45"
   },
   "dependencies": {
     "@date-fns/tz": "^1.1.2",
-    "@rundown-studio/types": "^0.5.4",
+    "@rundown-studio/types": "^0.7.1",
     "date-fns": "^4.1.0"
   }
 }
