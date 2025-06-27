@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { format } from '../dist/esm/index.js'
+import { format } from '../dist/index.js'
 
 describe('format function', () => {
   const formatString = 'HH:mm:ss yyyy-MM-dd'

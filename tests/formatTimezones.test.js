@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { formatTimezone } from '../dist/esm/index.js'
+import { formatTimezone } from '../dist/index.js'
 
 describe('formatTimezone', () => {
   it('should format timezone to city format (LA)', () => {

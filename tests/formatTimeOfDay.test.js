@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { formatTimeOfDay } from '../dist/esm/index.js'
+import { formatTimeOfDay } from '../dist/index.js'
 
 describe('formatTimeOfDay', () => {
   it('should format time in 24h format with seconds always shown', () => {

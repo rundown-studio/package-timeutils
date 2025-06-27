@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { addDays } from '../dist/esm/index.js'
+import { addDays } from '../dist/index.js'
 
 describe('addDays', () => {
   it('should handle DST transition in Australia/Sydney (Spring Forward)', () => {

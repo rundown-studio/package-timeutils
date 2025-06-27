@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { formatCalendarDate } from '../dist/esm/index.js'
+import { formatCalendarDate } from '../dist/index.js'
 
 describe('formatCalendarDate', () => {
   const testDate = new Date('2023-04-15T12:00:00Z')

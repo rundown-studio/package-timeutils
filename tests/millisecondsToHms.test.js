@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { millisecondsToHms } from '../dist/esm/index'
+import { millisecondsToHms } from '../dist/index.js'
 
 describe('millisecondsToHms', () => {
   test('0 milliseconds', () => {

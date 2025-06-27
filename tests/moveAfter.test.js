@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { moveAfter } from '../dist/esm/index.js'
+import { moveAfter } from '../dist/index.js'
 
 describe('moveAfter', () => {
   it('should throw an error if input is not a Date object', () => {

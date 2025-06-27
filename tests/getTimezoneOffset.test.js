@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { getTimezoneOffset } from '../dist/esm/index.js'
+import { getTimezoneOffset } from '../dist/index.js'
 
 describe('getTimezoneOffset', () => {
   describe('America/Los_Angeles', () => {

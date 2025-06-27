@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { parse } from '../dist/esm/index.js'
+import { parse } from '../dist/index.js'
 
 describe('parse function', () => {
   const timezones = [

@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { getStartOfDay } from '../dist/esm/index.js'
+import { getStartOfDay } from '../dist/index.js'
 
 describe('getStartOfDay', () => {
   test('invalid arguments', () => {
