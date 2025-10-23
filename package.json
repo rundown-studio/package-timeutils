@@ -24,25 +24,26 @@
     "README.md"
   ],
   "scripts": {
-    "test": "npm run test:UTC; npm run test:LA; npm run test:BER; npm run test:SYD",
-    "test:UTC": "TZ='UTC' NODE_OPTIONS=--experimental-vm-modules jest",
-    "test:LA": "TZ='America/Los_Angeles' NODE_OPTIONS=--experimental-vm-modules jest",
-    "test:BER": "TZ='Europe/Berlin' NODE_OPTIONS=--experimental-vm-modules jest",
-    "test:SYD": "TZ='Australia/Sydney' NODE_OPTIONS=--experimental-vm-modules jest",
-    "test:ci": "jest --ci",
+    "test": "npm run test:UTC && npm run test:LA && npm run test:BER && npm run test:SYD",
+    "test:UTC": "TZ='UTC' vitest run",
+    "test:LA": "TZ='America/Los_Angeles' vitest run",
+    "test:BER": "TZ='Europe/Berlin' vitest run",
+    "test:SYD": "TZ='Australia/Sydney' vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
     "build": "tsup",
     "lint": "eslint --fix"
   },
   "devDependencies": {
     "@eslint/js": "^9.5.0",
     "@stylistic/eslint-plugin": "^5.0.0",
-    "chai": "^5.1.1",
+    "@vitest/ui": "^4.0.1",
     "eslint": "^9.5.0",
     "globals": "^16.0.0",
-    "jest": "^30.0.3",
     "tsup": "^8.5.0",
     "typescript": "^5.4.5",
-    "typescript-eslint": "^8.0.0-alpha.45"
+    "typescript-eslint": "^8.0.0-alpha.45",
+    "vitest": "^4.0.1"
   },
   "dependencies": {
     "@date-fns/tz": "^1.1.2",

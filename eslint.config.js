@@ -43,13 +43,13 @@ export default [
     },
   },
 
-  // Special rules for test
+  // Special rules for tests
   {
-    name: 'eslint/js/tests',
-    files: ['tests/**/*.js'],
+    name: 'eslint/tests',
+    files: ['tests/**/*.js', 'tests/**/*.ts'],
     rules: {
       '@typescript-eslint/no-unused-expressions': 'off',
-    }
+    },
   },
 
   // Global ignore patterns

@@ -1,5 +1,5 @@
-import { expect } from 'chai'
-import { isSameDay } from '../dist/index.js'
+
+import { isSameDay } from '../src/index.js'
 
 describe('isSameDay', () => {
   test('should return true for the same day in Berlin timezone (1)', () => {

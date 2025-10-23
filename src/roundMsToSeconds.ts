@@ -19,5 +19,5 @@
  * roundMsToSeconds(1500, Math.floor) // 1000 (rounds down to 1s)
  */
 export function roundMsToSeconds (ms: number, roundingFn: (n: number) => number = Math.ceil): number {
-  return roundingFn(ms / 1000) * 1000
+  return roundingFn(ms / 1000) * 1000 || 0
 }

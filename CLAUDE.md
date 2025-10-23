@@ -21,11 +21,14 @@ npm run test:LA           # America/Los_Angeles
 npm run test:BER          # Europe/Berlin
 npm run test:SYD          # Australia/Sydney
 
-# Run tests in CI mode (single timezone)
-npm run test:ci
+# Run tests in watch mode (re-runs on file changes)
+npm run test:watch
+
+# Run tests with UI
+npm run test:ui
 
 # Run a specific test file
-TZ='UTC' NODE_OPTIONS=--experimental-vm-modules jest roundMsToSeconds
+TZ='UTC' vitest run roundMsToSeconds
 ```
 
 ### Building & Linting
@@ -51,7 +54,7 @@ npm run lint
 
 1. **Module System Duality**: Uses tsup to generate both CommonJS (`.cjs`) and ES Module (`.js`) outputs with corresponding TypeScript definitions
 
-2. **Test Strategy**: Tests import from compiled `dist/index.js` (not source files) to verify actual package output. All tests run in 4 timezones sequentially via npm scripts
+2. **Test Strategy**: Tests are written in TypeScript and import directly from source files. Vitest handles TypeScript natively. All tests run in 4 timezones sequentially via npm scripts
 
 3. **Small Single-Responsibility Functions**: Each utility does one thing well. Functions compose on each other (e.g., `moveAfter` uses `applyDate` and `addDays`)
 
@@ -92,24 +95,33 @@ All functions are exported from `src/index.ts`.
    - Usage examples
    - Special notes about DST/timezone handling
 3. Export from `src/index.ts`
-4. Create test file in `tests/` (use Chai's `expect(...).to.equal()` syntax)
-5. Build: `npm run build`
-6. Test: `npm test` (verifies all 4 timezones)
-7. Lint: `npm run lint`
+4. Create test file in `tests/` as TypeScript (`.test.ts`)
+5. Test: `npm test` (verifies all 4 timezones)
+6. Lint: `npm run lint`
 
 ### Testing Gotchas
 
-- Tests use **Chai** assertions (`expect(...).to.equal()`), not Jest's built-in `expect()`
-- Tests require `NODE_OPTIONS=--experimental-vm-modules` for ES module support
-- Tests import from `dist/index.js`, so you must build before testing
+- Tests are written in **TypeScript** (`.test.ts` files)
+- Tests use **Vitest** assertions (`expect(...).toBe()`, `expect(...).toEqual()`)
+- Tests import directly from `src/` (no build required)
+- Vitest handles TypeScript natively, no transpilation needed
 - Math.round() edge case: `Math.round(-0.5)` returns `-0`, not `-1` (JavaScript behavior)
+- `.toBe()` uses `Object.is()` which distinguishes between `0` and `-0`
 
-### Build System (tsup)
+### Build System
 
+**tsup** (for production builds):
 - Entry point: `src/index.ts`
 - Output: `dist/index.js` (ESM), `dist/index.cjs` (CommonJS)
 - TypeScript definitions: `dist/index.d.ts`, `dist/index.d.cts`
 - Clean builds enabled (removes dist/ before building)
+
+**Vitest** (for testing):
+- Native TypeScript support (no build required for tests)
+- Test files: `tests/**/*.test.ts`
+- Config: `vitest.config.ts`
+- Built-in assertions and mocking
+- Watch mode and UI available
 
 ## Key Dependencies
 

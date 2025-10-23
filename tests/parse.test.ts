@@ -1,5 +1,5 @@
-import { expect } from 'chai'
-import { parse } from '../dist/index.js'
+
+import { parse } from '../src/index.js'
 
 describe('parse function', () => {
   const timezones = [
@@ -25,7 +25,7 @@ describe('parse function', () => {
           'Australia/Sydney': new Date('2023-04-15T02:45:00Z'),
         }
 
-        expect(result).to.deep.equal(expected[timezone])
+        expect(result).toEqual(expected[timezone])
       })
     })
   })
@@ -45,7 +45,7 @@ describe('parse function', () => {
           'Australia/Sydney': new Date('2024-02-02T13:00:00Z'),
         }
 
-        expect(result).to.deep.equal(expected[timezone])
+        expect(result).toEqual(expected[timezone])
       })
     })
   })
@@ -53,34 +53,34 @@ describe('parse function', () => {
   it('should use UTC as default timezone if not specified', () => {
     const referenceDate = new Date('2023-04-15T00:00:00Z')
     const result = parse('15:30', 'HH:mm', referenceDate)
-    expect(result).to.deep.equal(new Date('2023-04-15T15:30:00.000Z'))
+    expect(result).toEqual(new Date('2023-04-15T15:30:00.000Z'))
   })
 
   it('should handle 1 day before Daylight Saving Time change (America/New_York)', () => {
     const referenceDate = new Date()
     const result = parse('2023-03-11 01:30', 'yyyy-MM-dd HH:mm', referenceDate, { timezone: 'America/New_York' })
-    expect(result).to.deep.equal(new Date('2023-03-11T06:30:00.000Z'))
+    expect(result).toEqual(new Date('2023-03-11T06:30:00.000Z'))
     // Sat Mar 11 2023 01:30:00 GMT-0500 (Eastern Standard Time)
   })
 
   it('should handle 30 min before Daylight Saving Time change (America/New_York)', () => {
     const referenceDate = new Date()
     const result = parse('2023-03-12 01:30', 'yyyy-MM-dd HH:mm', referenceDate, { timezone: 'America/New_York' })
-    expect(result).to.deep.equal(new Date('2023-03-12T06:30:00.000Z'))
+    expect(result).toEqual(new Date('2023-03-12T06:30:00.000Z'))
     // Sun Mar 12 2023 01:30:00 GMT-0500 (Eastern Standard Time)
   })
 
   it('should handle right before Daylight Saving Time change (America/New_York)', () => {
     const referenceDate = new Date()
     const result = parse('2023-03-12 02:00', 'yyyy-MM-dd HH:mm', referenceDate, { timezone: 'America/New_York' })
-    expect(result).to.deep.equal(new Date('2023-03-12T07:00:00.000Z'))
+    expect(result).toEqual(new Date('2023-03-12T07:00:00.000Z'))
     // Sun Mar 12 2023 02:00:00 GMT-0500 (Eastern Daylight Time)
   })
 
   it('should handle right after Daylight Saving Time change (America/New_York)', () => {
     const referenceDate = new Date()
     const result = parse('2023-03-12 03:00', 'yyyy-MM-dd HH:mm', referenceDate, { timezone: 'America/New_York' })
-    expect(result).to.deep.equal(new Date('2023-03-12T07:00:00.000Z'))
+    expect(result).toEqual(new Date('2023-03-12T07:00:00.000Z'))
     // Sun Mar 12 2023 03:00:00 GMT-0400 (Eastern Daylight Time)
   })
 
@@ -88,38 +88,38 @@ describe('parse function', () => {
   it('should handle 30 min after Daylight Saving Time change (America/New_York)', () => {
     const referenceDate = new Date()
     const result = parse('2023-03-12 03:30', 'yyyy-MM-dd HH:mm', referenceDate, { timezone: 'America/New_York' })
-    expect(result).to.deep.equal(new Date('2023-03-12T07:30:00.000Z'))
+    expect(result).toEqual(new Date('2023-03-12T07:30:00.000Z'))
     // Sun Mar 12 2023 03:30:00 GMT-0400 (Eastern Daylight Time)
   })
 
   it('should handle 1 day after Daylight Saving Time change (America/New_York)', () => {
     const referenceDate = new Date()
     const result = parse('2023-03-13 03:30', 'yyyy-MM-dd HH:mm', referenceDate, { timezone: 'America/New_York' })
-    expect(result).to.deep.equal(new Date('2023-03-13T07:30:00.000Z'))
+    expect(result).toEqual(new Date('2023-03-13T07:30:00.000Z'))
     // Mon Mar 13 2023 03:30:00 GMT-0400 (Eastern Daylight Time)
   })
 
   // Should throw on invalid timezone like 'format', but doesn't
   it.skip('should throw an error for invalid timezone', () => {
     const referenceDate = new Date()
-    expect(() => parse('12:00', 'HH:mm', referenceDate, { timezone: 'Invalid/Timezone' })).to.throw()
+    expect(() => parse('12:00', 'HH:mm', referenceDate, { timezone: 'Invalid/Timezone' })).toThrow()
   })
 
   it('should handle parsing at the start of the day', () => {
     const referenceDate = new Date('2023-04-15T00:00:00Z')
     const result = parse('00:00', 'HH:mm', referenceDate, { timezone: 'Australia/Sydney' })
-    expect(result).to.deep.equal(new Date('2023-04-14T14:00:00.000Z'))
+    expect(result).toEqual(new Date('2023-04-14T14:00:00.000Z'))
   })
 
   it('should handle parsing at the end of the day', () => {
     const referenceDate = new Date('2023-04-15T00:00:00Z')
     const result = parse('23:59', 'HH:mm', referenceDate, { timezone: 'America/Los_Angeles' })
-    expect(result).to.deep.equal(new Date('2023-04-15T06:59:00.000Z'))
+    expect(result).toEqual(new Date('2023-04-15T06:59:00.000Z'))
   })
 
   it('should handle parsing on the last day of the year', () => {
     const referenceDate = new Date('2023-04-15T00:00:00Z')
     const result = parse('2023-12-31 23:59', 'yyyy-MM-dd HH:mm', referenceDate, { timezone: 'Europe/Berlin' })
-    expect(result).to.deep.equal(new Date('2023-12-31T22:59:00.000Z'))
+    expect(result).toEqual(new Date('2023-12-31T22:59:00.000Z'))
   })
 })

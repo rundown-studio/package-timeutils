@@ -1,11 +1,11 @@
-import { expect } from 'chai'
-import { formatTimezone } from '../dist/index.js'
+
+import { formatTimezone } from '../src/index.js'
 
 describe('formatTimezone', () => {
   it('should format timezone to city format (LA)', () => {
     const result = formatTimezone('America/Los_Angeles', 'city')
     expect(result).to.be.a('string')
-    expect(result).to.equal('America / Los Angeles')
+    expect(result).toBe('America / Los Angeles')
   })
 
   it('should format timezone to long format (LA)', () => {
@@ -29,7 +29,7 @@ describe('formatTimezone', () => {
   it('should format timezone to city format (BER)', () => {
     const result = formatTimezone('Europe/Berlin', 'city')
     expect(result).to.be.a('string')
-    expect(result).to.equal('Europe / Berlin')
+    expect(result).toBe('Europe / Berlin')
   })
 
   it('should format timezone to long format (BER)', () => {
@@ -53,7 +53,7 @@ describe('formatTimezone', () => {
   it('should format timezone to city format (SYD)', () => {
     const result = formatTimezone('Australia/Sydney', 'city')
     expect(result).to.be.a('string')
-    expect(result).to.equal('Australia / Sydney')
+    expect(result).toBe('Australia / Sydney')
   })
 
   it('should format timezone to long format (SYD)', () => {
@@ -77,31 +77,31 @@ describe('formatTimezone', () => {
   it('should format timezone to long format (Mazatlan)', () => {
     const result = formatTimezone('America/Mazatlan', 'long')
     expect(result).to.be.a('string')
-    expect(result).to.equal('Mexican Pacific Standard Time')
+    expect(result).toBe('Mexican Pacific Standard Time')
   })
 
   it('should format timezone to abbreviation format (Mazatlan)', () => {
     const result = formatTimezone('America/Mazatlan', 'abbr')
     expect(result).to.be.a('string')
-    expect(result).to.equal('')
+    expect(result).toBe('')
   })
 
   it('should use fallback format if primary is not available (Mazatlan)', () => {
     const result = formatTimezone('America/Mazatlan', ['abbr', 'long'])
     expect(result).to.be.a('string')
-    expect(result).to.equal('Mexican Pacific Standard Time')
+    expect(result).toBe('Mexican Pacific Standard Time')
   })
 
   it('should format timezone to city format (Ushuaia)', () => {
     const result = formatTimezone('America/Argentina/Ushuaia', 'city')
     expect(result).to.be.a('string')
-    expect(result).to.equal('America / Ushuaia')
+    expect(result).toBe('America / Ushuaia')
   })
 
   it('should format timezone to city format (Louisville)', () => {
     const result = formatTimezone('America/Kentucky/Louisville', 'city')
     expect(result).to.be.a('string')
-    expect(result).to.equal('America / Louisville')
+    expect(result).toBe('America / Louisville')
   })
 
   it('should format timezone to offset format', () => {
@@ -111,6 +111,6 @@ describe('formatTimezone', () => {
   })
 
   it('should throw an error for invalid format option', () => {
-    expect(() => formatTimezone('America/Los_Angeles', 'invalid')).to.throw()
+    expect(() => formatTimezone('America/Los_Angeles', 'invalid')).toThrow()
   })
 })
