@@ -30,7 +30,8 @@
     "test:BER": "TZ='Europe/Berlin' NODE_OPTIONS=--experimental-vm-modules jest",
     "test:SYD": "TZ='Australia/Sydney' NODE_OPTIONS=--experimental-vm-modules jest",
     "test:ci": "jest --ci",
-    "build": "tsup"
+    "build": "tsup",
+    "lint": "eslint --fix"
   },
   "devDependencies": {
     "@eslint/js": "^9.5.0",
