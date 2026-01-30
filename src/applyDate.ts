@@ -26,23 +26,22 @@ export function applyDate (
   if (isSameDay(time, date, { timezone })) return time
   const tz = timezone || 'UTC'
 
-  // Change dates from UTC to sepcified timezone
+  // Change dates from UTC to specified timezone
   const timeOffset = getTimezoneOffset(tz, time)
   const timeInZone = addMilliseconds(time, timeOffset)
   const dateOffset = getTimezoneOffset(tz, date)
   const dateInZone = addMilliseconds(date, dateOffset)
 
   // Perform the actual applying of the date
-  // Note: Order is important, year -> month -> day (otherwise funny things happen in leap years with Feb 28)
   // Note: Has to use the UTC variants to avoid interference of system timezone
+  // Note: Must set year, month, day atomically to avoid month overflow (e.g. Jan 31 -> setMonth(Feb) rolls to Mar)
   const outputInZone = new Date(timeInZone)
-  outputInZone.setUTCFullYear(dateInZone.getUTCFullYear())
-  outputInZone.setUTCMonth(dateInZone.getUTCMonth())
-  outputInZone.setUTCDate(dateInZone.getUTCDate())
+  outputInZone.setUTCFullYear(dateInZone.getUTCFullYear(), dateInZone.getUTCMonth(), dateInZone.getUTCDate())
 
-  // Change output from sepcified timezone back to UTC
-  // Note: We guess that the dateOffset is likely identical to the final inUTC offset
-  const inUTC = addMilliseconds(outputInZone, -dateOffset)
+  // Change output from specified timezone back to UTC
+  // Note: Recalculate offset because the output may land on a different side of a DST boundary than dateInUTC
+  const outputOffset = getTimezoneOffset(tz, addMilliseconds(outputInZone, -dateOffset))
+  const inUTC = addMilliseconds(outputInZone, -outputOffset)
 
   // console.log(
   //   '[applyDate]',

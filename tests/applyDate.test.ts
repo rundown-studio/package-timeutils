@@ -162,6 +162,88 @@ describe('applyDate', () => {
     expect(output).toEqual(new Date('2023-11-30T07:04:04.000Z'))
   })
 
+  test('Bug: Month overflow - Dec 30 to Feb should not become March', () => {
+    // This bug occurred when source day (30) doesn't exist in target month (Feb)
+    const inTime = new Date('2025-12-30T10:15:00.000Z') // Dec 30
+    const inDate = new Date('2020-02-02T00:00:00.000Z') // Feb 2
+    const output = applyDate(inTime, inDate)
+    expect(output).toEqual(new Date('2020-02-02T10:15:00.000Z'))
+  })
+
+  test('Bug: Month overflow - Dec 31 to Feb should not become March', () => {
+    const inTime = new Date('2025-12-31T10:15:00.000Z') // Dec 31
+    const inDate = new Date('2020-02-15T00:00:00.000Z') // Feb 15
+    const output = applyDate(inTime, inDate)
+    expect(output).toEqual(new Date('2020-02-15T10:15:00.000Z'))
+  })
+
+  test('Bug: Month overflow - Jan 31 to Apr (30 days) should not overflow', () => {
+    const inTime = new Date('2025-01-31T10:15:00.000Z') // Jan 31
+    const inDate = new Date('2020-04-15T00:00:00.000Z') // Apr 15
+    const output = applyDate(inTime, inDate)
+    expect(output).toEqual(new Date('2020-04-15T10:15:00.000Z'))
+  })
+
+  test('Bug: Month overflow - Mar 31 to Feb in leap year', () => {
+    const inTime = new Date('2025-03-31T10:15:00.000Z') // Mar 31
+    const inDate = new Date('2020-02-29T00:00:00.000Z') // Feb 29 (leap year)
+    const output = applyDate(inTime, inDate)
+    expect(output).toEqual(new Date('2020-02-29T10:15:00.000Z'))
+  })
+
+  // Reported bug: User selects Feb 3 as finish date but field shows 2026-03-03.
+  // The finish time was on Jan 31, so applying Feb 3 caused: Jan 31 → set month to Feb → Feb 31 → March 3.
+  test('Bug: Reported - Jan 31 finish time, select Feb 3 date (w/o timezone)', () => {
+    const inTime = new Date('2026-01-31T10:00:00.000Z')
+    const inDate = new Date('2026-02-03T00:00:00.000Z')
+    const output = applyDate(inTime, inDate)
+    expect(output).toEqual(new Date('2026-02-03T10:00:00.000Z'))
+  })
+
+  test('Bug: Reported - Jan 31 finish time, select Feb 3 date (UTC)', () => {
+    const inTime = new Date('2026-01-31T10:00:00.000Z')
+    const inDate = new Date('2026-02-03T00:00:00.000Z')
+    const output = applyDate(inTime, inDate, { timezone: 'UTC' })
+    expect(output).toEqual(new Date('2026-02-03T10:00:00.000Z'))
+  })
+
+  test('Bug: Reported - Jan 31 finish time, select Feb 3 date (America/Los_Angeles)', () => {
+    const inTime = new Date('2026-01-31T18:00:00.000Z') // Jan 31 10:00 PST
+    const inDate = new Date('2026-02-03T08:00:00.000Z') // Feb 3 00:00 PST
+    const output = applyDate(inTime, inDate, { timezone: 'America/Los_Angeles' })
+    expect(output).toEqual(new Date('2026-02-03T18:00:00.000Z')) // Feb 3 10:00 PST
+  })
+
+  test('Bug: Reported - Jan 31 finish time, select Feb 3 date (Europe/Berlin)', () => {
+    const inTime = new Date('2026-01-31T09:00:00.000Z') // Jan 31 10:00 CET
+    const inDate = new Date('2026-02-02T23:00:00.000Z') // Feb 3 00:00 CET
+    const output = applyDate(inTime, inDate, { timezone: 'Europe/Berlin' })
+    expect(output).toEqual(new Date('2026-02-03T09:00:00.000Z')) // Feb 3 10:00 CET
+  })
+
+  test('Bug: Reported - Jan 31 finish time, select Feb 3 date (Australia/Sydney)', () => {
+    const inTime = new Date('2026-01-30T23:00:00.000Z') // Jan 31 10:00 AEDT
+    const inDate = new Date('2026-02-02T13:00:00.000Z') // Feb 3 00:00 AEDT
+    const output = applyDate(inTime, inDate, { timezone: 'Australia/Sydney' })
+    expect(output).toEqual(new Date('2026-02-02T23:00:00.000Z')) // Feb 3 10:00 AEDT
+  })
+
+  describe('Bug: DST-crossing offset — reusing dateOffset gives wrong UTC result', () => {
+    // On 2025-03-30 in Europe/Berlin, clocks jump from 02:00 CET (+1h) to 03:00 CEST (+2h).
+    // time is 01:00 CET on March 28 (offset +1h, different day)
+    // date is noon CEST on March 30 (offset +2h, after switch)
+    // Output should be 01:00 CET on March 30 (before the switch on that day), so offset +1h.
+    // If dateOffset (+2h) is reused instead of recalculated, result is 1 hour off.
+    test('time on pre-DST day, date on DST-switch day after switch', () => {
+      const timezone = 'Europe/Berlin'
+      const inTime = new Date('2025-03-28T00:00:00.000Z') // Mar 28 01:00 CET (offset +1h)
+      const inDate = new Date('2025-03-30T10:00:00.000Z') // Mar 30 12:00 CEST (offset +2h)
+      const output = applyDate(inTime, inDate, { timezone })
+      // Output: Mar 30 01:00 CET = 2025-03-30T00:00:00Z (offset +1h, before DST switch)
+      expect(output).toEqual(new Date('2025-03-30T00:00:00.000Z'))
+    })
+  })
+
   describe('Bug found on Feb 21 while testing rundown date input', () => {
     test('Feb 19 to Feb 19, Europe/Berlin, reference case', () => {
       const timezone = 'Europe/Berlin'
