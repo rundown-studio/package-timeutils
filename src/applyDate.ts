@@ -39,8 +39,9 @@ export function applyDate (
   outputInZone.setUTCFullYear(dateInZone.getUTCFullYear(), dateInZone.getUTCMonth(), dateInZone.getUTCDate())
 
   // Change output from specified timezone back to UTC
-  // Note: We guess that the dateOffset is likely identical to the final inUTC offset
-  const inUTC = addMilliseconds(outputInZone, -dateOffset)
+  // Note: Recalculate offset because the output may land on a different side of a DST boundary than dateInUTC
+  const outputOffset = getTimezoneOffset(tz, addMilliseconds(outputInZone, -dateOffset))
+  const inUTC = addMilliseconds(outputInZone, -outputOffset)
 
   // console.log(
   //   '[applyDate]',
