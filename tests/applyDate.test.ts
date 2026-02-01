@@ -244,6 +244,80 @@ describe('applyDate', () => {
     })
   })
 
+  describe('Month overflow: last day of long month → shorter month', () => {
+    test('Jan 31 → Feb 1 (no tz)', () => {
+      const output = applyDate(new Date('2026-01-31T10:00:00.000Z'), new Date('2026-02-01T00:00:00.000Z'))
+      expect(output).toEqual(new Date('2026-02-01T10:00:00.000Z'))
+    })
+
+    test('Jan 31 → Feb 15 (no tz)', () => {
+      const output = applyDate(new Date('2026-01-31T10:00:00.000Z'), new Date('2026-02-15T00:00:00.000Z'))
+      expect(output).toEqual(new Date('2026-02-15T10:00:00.000Z'))
+    })
+
+    test('Jan 31 → Feb 28 (no tz)', () => {
+      const output = applyDate(new Date('2026-01-31T10:00:00.000Z'), new Date('2026-02-28T00:00:00.000Z'))
+      expect(output).toEqual(new Date('2026-02-28T10:00:00.000Z'))
+    })
+
+    test('Jan 30 → Feb 28 (no tz)', () => {
+      const output = applyDate(new Date('2026-01-30T10:00:00.000Z'), new Date('2026-02-28T00:00:00.000Z'))
+      expect(output).toEqual(new Date('2026-02-28T10:00:00.000Z'))
+    })
+
+    test('Jan 29 → Feb 28 (no tz)', () => {
+      const output = applyDate(new Date('2026-01-29T10:00:00.000Z'), new Date('2026-02-28T00:00:00.000Z'))
+      expect(output).toEqual(new Date('2026-02-28T10:00:00.000Z'))
+    })
+
+    test('Mar 31 → Feb 28 (no tz)', () => {
+      const output = applyDate(new Date('2026-03-31T10:00:00.000Z'), new Date('2026-02-28T00:00:00.000Z'))
+      expect(output).toEqual(new Date('2026-02-28T10:00:00.000Z'))
+    })
+
+    test('Jan 31 → Feb 1 (Europe/Berlin)', () => {
+      const inTime = new Date('2026-01-31T09:00:00.000Z') // Jan 31 10:00 CET
+      const inDate = new Date('2026-01-31T23:00:00.000Z') // Feb 1 00:00 CET
+      const output = applyDate(inTime, inDate, { timezone: 'Europe/Berlin' })
+      expect(output).toEqual(new Date('2026-02-01T09:00:00.000Z')) // Feb 1 10:00 CET
+    })
+
+    test('Jan 31 → Feb 28 (Europe/Berlin)', () => {
+      const inTime = new Date('2026-01-31T09:00:00.000Z') // Jan 31 10:00 CET
+      const inDate = new Date('2026-02-27T23:00:00.000Z') // Feb 28 00:00 CET
+      const output = applyDate(inTime, inDate, { timezone: 'Europe/Berlin' })
+      expect(output).toEqual(new Date('2026-02-28T09:00:00.000Z')) // Feb 28 10:00 CET
+    })
+
+    test('Jan 31 → Feb 1 (America/Los_Angeles)', () => {
+      const inTime = new Date('2026-01-31T18:00:00.000Z') // Jan 31 10:00 PST
+      const inDate = new Date('2026-02-01T08:00:00.000Z') // Feb 1 00:00 PST
+      const output = applyDate(inTime, inDate, { timezone: 'America/Los_Angeles' })
+      expect(output).toEqual(new Date('2026-02-01T18:00:00.000Z')) // Feb 1 10:00 PST
+    })
+
+    test('Jan 31 → Feb 28 (America/Los_Angeles)', () => {
+      const inTime = new Date('2026-01-31T18:00:00.000Z') // Jan 31 10:00 PST
+      const inDate = new Date('2026-02-28T08:00:00.000Z') // Feb 28 00:00 PST
+      const output = applyDate(inTime, inDate, { timezone: 'America/Los_Angeles' })
+      expect(output).toEqual(new Date('2026-02-28T18:00:00.000Z')) // Feb 28 10:00 PST
+    })
+
+    test('Jan 31 → Feb 2 (Australia/Sydney)', () => {
+      const inTime = new Date('2026-01-30T23:00:00.000Z') // Jan 31 10:00 AEDT
+      const inDate = new Date('2026-02-01T13:00:00.000Z') // Feb 2 00:00 AEDT
+      const output = applyDate(inTime, inDate, { timezone: 'Australia/Sydney' })
+      expect(output).toEqual(new Date('2026-02-01T23:00:00.000Z')) // Feb 2 10:00 AEDT
+    })
+
+    test('Jan 31 → Feb 28 (Australia/Sydney)', () => {
+      const inTime = new Date('2026-01-30T23:00:00.000Z') // Jan 31 10:00 AEDT
+      const inDate = new Date('2026-02-27T13:00:00.000Z') // Feb 28 00:00 AEDT
+      const output = applyDate(inTime, inDate, { timezone: 'Australia/Sydney' })
+      expect(output).toEqual(new Date('2026-02-27T23:00:00.000Z')) // Feb 28 10:00 AEDT
+    })
+  })
+
   describe('Bug found on Feb 21 while testing rundown date input', () => {
     test('Feb 19 to Feb 19, Europe/Berlin, reference case', () => {
       const timezone = 'Europe/Berlin'
