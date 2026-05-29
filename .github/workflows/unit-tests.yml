@@ -60,3 +60,4 @@ jobs:
         run: npx vitest run 2>&1 | tee $GITHUB_STEP_SUMMARY; exit ${PIPESTATUS[0]}
         env:
           TZ: ${{ matrix.timezone }}
+          NO_COLOR: '1'
