@@ -36,8 +36,14 @@ TZ='UTC' vitest run roundMsToSeconds
 # Build TypeScript to dist/ (both ESM and CJS)
 npm run build
 
-# Lint and auto-fix code
+# Type-check src/ without emitting (tsc --noEmit)
+npm run typecheck
+
+# Lint (check only, fails on any warning — used as the CI gate)
 npm run lint
+
+# Lint and auto-fix code
+npm run lint:fix
 ```
 
 ## Architecture Overview
@@ -82,7 +88,7 @@ All functions are exported from `src/index.ts`.
 - **1tbs brace style** (one true brace style)
 - **Object curly spacing** required
 
-**IMPORTANT**: Always run `npm run lint` after making code changes to ensure compliance with ESLint rules.
+**IMPORTANT**: Always run `npm run lint:fix` after making code changes to auto-fix and ensure compliance with ESLint rules. CI runs `npm run lint` (check-only, `--max-warnings 0`) and `npm run typecheck` before the tests.
 
 ## Development Workflow
 
